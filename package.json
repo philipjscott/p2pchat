@@ -7,7 +7,7 @@
     "lint": "standard",
     "fix": "standard --fix",
     "test": "echo \"No test provided! :<\"",
-    "build": "parcel build client/index.html",
+    "build": "parcel build client/index.html --public-url '.'",
     "dev:c": "parcel client/index.html --open",
     "dev:s": "nodemon server.js --ignore client/ --ignore dist/",
     "dev": "concurrently \"yarn run dev:*\""
