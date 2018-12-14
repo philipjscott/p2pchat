@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "standard",
     "fix": "standard --fix",
-    "build": "parcle build client/index.html",
+    "build": "parcel build client/index.html",
     "dev:c": "parcel client/index.html --open",
     "dev:s": "nodemon server.js --ignore client/ --ignore dist/",
     "dev": "concurrently \"yarn run dev:*\""
