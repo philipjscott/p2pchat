@@ -14,7 +14,7 @@ deploy:
     on:
       branch: staging
   - provider: heroku
-    app: node-relay-signal
+    app: node-rtc-signal
     api_key:
       secure: J7bGntKN41Ngw4dbIK686UH5gGz5vDH1QYKpNZH3y9+ANh46BdGyYtGzwpUouFjydfuX1HUmdTF/AKSN01P3IIc3qkLN5G8V3XR6vJNB/2ZdGv7A3lWGgIieNJY6kwKwHhQB4sTSJXlt3UaybBw97DJu3DfqRvFwgAlU+c35gfimV0GNJmDarVW1i+2mYP2+Ho2fEhFatD7cCMmUh745rHBdNFZvYCkxEZ7OaT537h+7hTszFroKl+7w30En/3aS0OYt44egbLMOcD5xy0I2zn+p8AyCPH6J+8CfTGn1Yk9eBCcHeL5MVS6d0GxmjCjyxq09qrJq6wtMfk8jbr5x4XAxrWCAnQBZciFzTK+b4olefcbC/c8WOToS8yF1cYrq1CfmZoPaemoMddGqQqRR8YLvd3WPH+uGThGepE79+cyzLW+HPVdGICz3ZnmT9VWn2c/sS3tirbTSkSryHw9kQuGKoI6sJz5fmjVAmdmQyHAF5rkreh2p1xKptHMW/5te34ajYM9JVZlq72F94OpjdMrBjTFvkOCv36yfdQrjrFaWE2fW71nvXaeIwRCB7TSg/B5ej8+7vnNJIoIgmxqUFoRXDL8lYxTgVQUZLIULIZvf4sSbnDszAiIf/l1UZF1SYgSM2UrlnjpyG3dj0OE3PEYsZvklBoNYi2MIB1EcI+M=
     on:
