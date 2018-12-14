@@ -1,42 +1,42 @@
 'use strict'
 
 const { Room } = require('colyseus')
-const wrtc = require('wrtc')
-const Peer = require('simple-peer')
 
 class RelayRoom extends Room {
   onInit () {
-    this.peers = {}
+    this.users = {}
   }
 
-  onJoin (client, options) {
-    const peer = new Peer({ wrtc })
+  onJoin (client) {
+    console.log(client.sessionId, '-> *')
 
-    this.peers[client.sessionId] = peer
+    this.broadcast({
+      action: 'create',
+      target: client.sessionId
+    })
 
-    peer.on('signal', signal => {
-      this.send(client, signal)
-    })
-    peer.on('connect', () => {
-      console.log(`Peer client ${client.sessionId} connected!`)
-    })
-    peer.on('data', data => {
-      for (const peerId in this.peers) {
-        if (peerId !== client.sessionId) {
-          this.peers[peerId].send(data)
-        }
-      }
-    })
+    this.users[client.sessionId] = client
   }
 
   onLeave (client) {
-    this.peers[client.sessionId].destroy()
+    console.log(client.sessionId, '<!>')
 
-    delete this.peers[client.sessionId]
+    this.broadcast({
+      action: 'destroy',
+      target: client.sessionId
+    })
+
+    delete this.users[client.sessionId]
   }
 
   onMessage (client, data) {
-    this.peers[client.sessionId].signal(data)
+    console.log(client.sessionId, '->', data.target)
+
+    this.send(this.users[data.target], {
+      action: 'signal',
+      data: data.data,
+      target: client.sessionId
+    })
   }
 }
 
