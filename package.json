@@ -1,9 +1,10 @@
 {
   "name": "node-rtc-signal",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "license": "MIT",
   "scripts": {
+    "start": "node server.js",
     "lint": "standard",
     "fix": "standard --fix",
     "test": "echo \"No test provided! :<\"",
