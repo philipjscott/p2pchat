@@ -5,7 +5,6 @@ before_script:
 node_js:
 - node
 deploy:
-  matrix:
   - provider: pages
     github-token: "$GITHUB_TOKEN"
     keep-history: true
@@ -16,9 +15,7 @@ deploy:
       branch: staging
   - provider: heroku
     app: node-relay-signal
-    on:
-      branch: staging
     api_key:
       secure: ebTEuRgITP/A2aVAdAg2P1BUw0cLOLoofdjdR+2LaUQvuVfGQharajYbCgRoE/PDolpug2akWraohMl5MfCP5dLBDSqiWIeZdlDQek5v+IhyxBELnDT4AbuKJs7QvTBowGuWGTM4tEvRMjyIDszIZG5d+bts/Fl6bkXQMPv7w3NAQbfKdxIk9Kf7dwVy2KIPf+SWg+v34CSsG9sCvQHrURYLltQeQUAP6pGRaDcxKHtWe1u5ywRMbMfjm4C8zRSuR7Fj6KFmiskM4Fn4Jl5O2XGHlohvP/3HHbH9xFnL91vpaz5qPCCNtYEaFarHZivdr2Nlo4ZUDM/8O5ixdOtwwPKjvblYR/r+UsWn7cbbOQ84pQ3JAddT/LKAPWyZ2iKxW+7/SozIH3ZnidOpLA7YUoescLVNleCIjcuzumChy179PmAkEtgd/Q+Hm3k64mPqtb0BHyVJ/WKDrsl1UINgi6PpvguvexgBxfjJrzHG126bvtAXthBz+cTePJuvo9b42/ExHofZU3ePaHXSrDCoqLEWcKmkx/PKCUV1z1PBzBNMe7X07XSTiYm5M7GYrp+5MVW9AiuI0m8owW/wysUU15Diu0ZCXggPLZkWx5a7a5cbc6iOjd22dom1OeH96IwR/qoPYfjuOY15K0OmI7nPzQoMiX1fjiaMfDhVHW0B3y4=
-  api_key:
-    secure: sPzfgDPp/kZ2U7plXcZ8ru3bENC6iTBQni/LH7YllpnD+0KGmVIIR2RxcFw6ZffN9JGJyrUkY6CcjrcJngwRjp7i6A18J3VbKlmHvPYNiE4GMvgWhZFlEwx6y/P+DgAjvwojliPMUOxKvy/Ohgwz+nVWaMtb7xcSwKW5ZePnmMKY9BACH4lTDzUrGID/CEOP2cqM02mrsyrzVIbvOk7HXNh1832DIrGzCq2LI7kSRtjIuy8GFqFImH1qRPwak7C4Jqh8zdhL2ByHSz5ttoWXkpAvUqLqclqnXyEhDdFTkuJZpaWXke0/wIARwoxfzgmW1btdc0egaT1p1D/MK4NTbq+3ODKhyRHXjOQMNsVsEiWPAXv2YG88g//6hCNwhs1VVzjwiEnhQ3137/NoPtdElv7Xl2wtMVDCuz+LPHekP3fTaWJ2LIlIa0S15WOLfDrJhXTNZoo9XmjibwWm90lulTM0GitWjz2b4XeaNXJxISF0/USBYiOcTQIYD1Ya7vvM5m7JevXSAk2/AslRqB+BHuFqakuH9Uh/H/xSsPL5zGyQ3/ym3ecKZ5CvmkRtmfITnLHV5uj0oDj/sig8v3QKvwxDzMPfWk464k0sb0/sGLz5GXhMIO8t9kDnjSBqOwnblPezEqbNgkXfJq/1R99ivUSj9F3MEE/aXsm7KjGQKG4=
+    on:
+      branch: staging 
