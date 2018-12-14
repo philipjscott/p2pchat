@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "standard",
     "fix": "standard --fix",
+    "build": "parcle build client/index.html",
     "dev:c": "parcel client/index.html --open",
     "dev:s": "nodemon server.js --ignore client/ --ignore dist/",
     "dev": "concurrently \"yarn run dev:*\""
@@ -16,6 +17,7 @@
   "devDependencies": {
     "colyseus.js": "^0.9.15",
     "concurrently": "^4.1.0",
+    "config": "^3.0.0",
     "nodemon": "^1.18.8",
     "parcel-bundler": "^1.10.3",
     "simple-peer": "^9.2.0",

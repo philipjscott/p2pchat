@@ -2,10 +2,11 @@
 
 import * as Colyseus from 'colyseus.js'
 import Peer from 'simple-peer'
+import config from '../config/default.json'
 
 const wsUrl = window.location.hostname === 'localhost'
   ? `ws://${window.location.hostname}:8080`
-  : `ws://${window.location.host}`
+  : `ws://${config.app.host}`
 
 const client = new Colyseus.Client(wsUrl)
 const room = client.join('relay')

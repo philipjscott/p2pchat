@@ -1,10 +1,11 @@
 'use strict'
 
-const port = process.env.PORT || 8080
+const config = require('config')
 const colyseus = require('colyseus')
 const RelayRoom = require('./room')
 const http = require('http')
 
+const port = process.env.PORT || config.app.port
 const server = http.createServer()
 const roomServer = new colyseus.Server({ server })
 
