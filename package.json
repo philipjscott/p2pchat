@@ -14,12 +14,12 @@
     "dev": "concurrently \"yarn run dev:*\""
   },
   "dependencies": {
-    "colyseus": "^0.9.22"
+    "colyseus": "^0.9.22",
+    "config": "^3.0.0"
   },
   "devDependencies": {
     "colyseus.js": "^0.9.15",
     "concurrently": "^4.1.0",
-    "config": "^3.0.0",
     "nodemon": "^1.18.8",
     "parcel-bundler": "^1.10.3",
     "simple-peer": "^9.2.0",
