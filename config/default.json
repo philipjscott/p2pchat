@@ -1,0 +1,6 @@
+{
+  "app": {
+    "port": 8080,
+    "host": "node-rtc-signal.herokuapp.com"
+  }
+}

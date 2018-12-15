@@ -1,17 +1,21 @@
 {
   "name": "node-rtc-signal",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "license": "MIT",
   "scripts": {
+    "start": "node server.js",
     "lint": "standard",
     "fix": "standard --fix",
+    "test": "yarn run lint",
+    "build": "parcel build client/index.html --public-url '.'",
     "dev:c": "parcel client/index.html --open",
     "dev:s": "nodemon server.js --ignore client/ --ignore dist/",
     "dev": "concurrently \"yarn run dev:*\""
   },
   "dependencies": {
-    "colyseus": "^0.9.22"
+    "colyseus": "^0.9.22",
+    "config": "^3.0.0"
   },
   "devDependencies": {
     "colyseus.js": "^0.9.15",

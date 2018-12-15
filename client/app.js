@@ -2,18 +2,23 @@
 
 import * as Colyseus from 'colyseus.js'
 import Peer from 'simple-peer'
+import config from '../config/default.json'
 
 const wsUrl = window.location.hostname === 'localhost'
   ? `ws://${window.location.hostname}:8080`
-  : `ws://${window.location.host}`
+  : `wss://${config.app.host}`
 
 const client = new Colyseus.Client(wsUrl)
 const room = client.join('relay')
 const peers = {}
-const mediaPromise = navigator.mediaDevices.getUserMedia({
+const mediaPromise = getMedia({
   video: true,
   audio: true
-}).catch(console.error)
+})
+  .catch(() => getMedia({ audio: true }))
+  .catch(() => getMedia({ video: true }))
+
+getMedia({ video: true }).then(appendVideo.bind(null, 'self-video'))
 
 room.onMessage.add(message => {
   if (message.target === room.sessionId) {
@@ -42,6 +47,10 @@ room.onMessage.add(message => {
   }
 })
 
+function getMedia (constraints) {
+  return navigator.mediaDevices.getUserMedia(constraints)
+}
+
 function destroyPeer (message, peer) {
   const video = document.querySelector(`#${message.target}`)
 
@@ -56,20 +65,24 @@ function createPeer (message, mediaPromise, initiator) {
     peer.on('signal', data => {
       room.send({ target: message.target, data })
     })
-    peer.on('stream', targetStream => {
-      const video = document.createElement('video')
-
-      document.body.appendChild(video)
-      video.id = message.target
-      try {
-        video.srcObject = targetStream
-      } catch (error) {
-        console.error(error)
-        video.src = URL.createObjectURL(targetStream)
-      }
-      video.play()
-    })
+    peer.on('stream', appendVideo.bind(null, message.target))
 
     return peer
   })
+}
+
+function appendVideo (id, stream) {
+  const video = document.createElement('video')
+
+  document.body.appendChild(video)
+  video.id = id
+  try {
+    video.srcObject = stream
+  } catch (error) {
+    console.error(error)
+    video.src = URL.createObjectURL(stream)
+  }
+  video.play()
+
+  return stream
 }
