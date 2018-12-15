@@ -14,7 +14,9 @@ const peers = {}
 const mediaPromise = navigator.mediaDevices.getUserMedia({
   video: true,
   audio: true
-}).catch(console.error)
+})
+  .then(appendVideo.bind(null, 'self-video'))
+  .catch(console.error)
 
 room.onMessage.add(message => {
   if (message.target === room.sessionId) {
@@ -57,20 +59,24 @@ function createPeer (message, mediaPromise, initiator) {
     peer.on('signal', data => {
       room.send({ target: message.target, data })
     })
-    peer.on('stream', targetStream => {
-      const video = document.createElement('video')
-
-      document.body.appendChild(video)
-      video.id = message.target
-      try {
-        video.srcObject = targetStream
-      } catch (error) {
-        console.error(error)
-        video.src = URL.createObjectURL(targetStream)
-      }
-      video.play()
-    })
+    peer.on('stream', appendVideo.bind(null, message.target))
 
     return peer
   })
+}
+
+function appendVideo (id, stream) {
+  const video = document.createElement('video')
+
+  document.body.appendChild(video)
+  video.id = id
+  try {
+    video.srcObject = stream
+  } catch (error) {
+    console.error(error)
+    video.src = URL.createObjectURL(stream)
+  }
+  video.play()
+
+  return stream
 }
