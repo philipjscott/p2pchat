@@ -11,12 +11,14 @@ const wsUrl = window.location.hostname === 'localhost'
 const client = new Colyseus.Client(wsUrl)
 const room = client.join('relay')
 const peers = {}
-const mediaPromise = navigator.mediaDevices.getUserMedia({
+const mediaPromise = getMedia({
   video: true,
   audio: true
 })
-  .then(appendVideo.bind(null, 'self-video'))
-  .catch(console.error)
+  .catch(() => getMedia({ audio: true }))
+  .catch(() => getMedia({ video: true }))
+
+getMedia({ video: true }).then(appendVideo.bind(null, 'self-video'))
 
 room.onMessage.add(message => {
   if (message.target === room.sessionId) {
@@ -44,6 +46,10 @@ room.onMessage.add(message => {
       throw new Error('Invalid action')
   }
 })
+
+function getMedia (constraints) {
+  return navigator.mediaDevices.getUserMedia(constraints)
+}
 
 function destroyPeer (message, peer) {
   const video = document.querySelector(`#${message.target}`)
