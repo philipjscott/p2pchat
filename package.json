@@ -7,7 +7,7 @@
     "start": "node server.js",
     "lint": "standard",
     "fix": "standard --fix",
-    "test": "echo \"No test provided! :<\"",
+    "test": "yarn run lint",
     "build": "parcel build client/index.html --public-url '.'",
     "dev:c": "parcel client/index.html --open",
     "dev:s": "nodemon server.js --ignore client/ --ignore dist/",
