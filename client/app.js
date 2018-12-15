@@ -6,7 +6,7 @@ import config from '../config/default.json'
 
 const wsUrl = window.location.hostname === 'localhost'
   ? `ws://${window.location.hostname}:8080`
-  : `ws://${config.app.host}`
+  : `wss://${config.app.host}`
 
 const client = new Colyseus.Client(wsUrl)
 const room = client.join('relay')
