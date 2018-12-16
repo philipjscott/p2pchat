@@ -1,9 +1,11 @@
 'use strict'
 
 const { Room } = require('colyseus')
+const config = require('config')
 
 class RelayRoom extends Room {
   onInit () {
+    this.maxClients = config.app.maxClients
     this.users = {}
   }
 

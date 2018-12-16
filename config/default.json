@@ -1,6 +1,7 @@
 {
   "app": {
     "port": 8080,
+    "maxClients": 4,
     "host": "node-rtc-signal.herokuapp.com"
   }
 }
