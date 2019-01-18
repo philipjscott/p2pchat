@@ -4,48 +4,54 @@ import * as Colyseus from 'colyseus.js'
 import Peer from 'simple-peer'
 import config from '../config/default.json'
 
-const wsUrl = window.location.hostname === 'localhost'
-  ? `ws://${window.location.hostname}:8080`
-  : `wss://${config.app.host}`
+window.fetch(config.app.host)
+  .then(run)
+  .catch(() => console.error('Signalling server failed to send response'))
 
-const client = new Colyseus.Client(wsUrl)
-const room = client.join('relay')
-const peers = {}
-const mediaPromise = getMedia({
-  video: true,
-  audio: true
-})
-  .catch(() => getMedia({ audio: true }))
-  .catch(() => getMedia({ video: true }))
+function run () {
+  const wsUrl = window.location.hostname === 'localhost'
+    ? `ws://${window.location.hostname}:8080`
+    : `wss://${config.app.host}`
 
-getMedia({ video: true }).then(appendVideo.bind(null, 'self-video'))
+  const client = new Colyseus.Client(wsUrl)
+  const room = client.join('relay')
+  const peers = {}
+  const mediaPromise = getMedia({
+    video: true,
+    audio: true
+  })
+    .catch(() => getMedia({ audio: true }))
+    .catch(() => getMedia({ video: true }))
 
-room.onMessage.add(message => {
-  if (message.target === room.sessionId) {
-    return
-  }
+  getMedia({ video: true }).then(appendVideo.bind(null, 'self-video'))
 
-  switch (message.action) {
-    case 'create':
-      peers[message.target] = createPeer(message, mediaPromise, true)
-      break
-    case 'signal':
-      if (!peers[message.target]) {
-        peers[message.target] = createPeer(message, mediaPromise, false)
-      }
-      peers[message.target].then(peer => {
-        peer.signal(message.data)
-      })
-      break
-    case 'destroy':
-      peers[message.target].then(peer => {
-        destroyPeer(message, peer)
-      })
-      break
-    default:
-      throw new Error('Invalid action')
-  }
-})
+  room.onMessage.add(message => {
+    if (message.target === room.sessionId) {
+      return
+    }
+
+    switch (message.action) {
+      case 'create':
+        peers[message.target] = createPeer(room, message, mediaPromise, true)
+        break
+      case 'signal':
+        if (!peers[message.target]) {
+          peers[message.target] = createPeer(room, message, mediaPromise, false)
+        }
+        peers[message.target].then(peer => {
+          peer.signal(message.data)
+        })
+        break
+      case 'destroy':
+        peers[message.target].then(peer => {
+          destroyPeer(message, peer)
+        })
+        break
+      default:
+        throw new Error('Invalid action')
+    }
+  })
+}
 
 function getMedia (constraints) {
   return navigator.mediaDevices.getUserMedia(constraints)
@@ -58,7 +64,7 @@ function destroyPeer (message, peer) {
   peer.destroy()
 }
 
-function createPeer (message, mediaPromise, initiator) {
+function createPeer (room, message, mediaPromise, initiator) {
   return mediaPromise.then(stream => {
     const peer = new Peer({ initiator, stream })
 
