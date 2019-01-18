@@ -4,9 +4,9 @@ import * as Colyseus from 'colyseus.js'
 import Peer from 'simple-peer'
 import config from '../config/default.json'
 
-fetch(config.app.host)
+window.fetch(config.app.host)
   .then(run)
-  .catch(() => console.error('Signalling server failed to send response')
+  .catch(() => console.error('Signalling server failed to send response'))
 
 function run () {
   const wsUrl = window.location.hostname === 'localhost'
@@ -32,11 +32,11 @@ function run () {
 
     switch (message.action) {
       case 'create':
-        peers[message.target] = createPeer(message, mediaPromise, true)
+        peers[message.target] = createPeer(room, message, mediaPromise, true)
         break
       case 'signal':
         if (!peers[message.target]) {
-          peers[message.target] = createPeer(message, mediaPromise, false)
+          peers[message.target] = createPeer(room, message, mediaPromise, false)
         }
         peers[message.target].then(peer => {
           peer.signal(message.data)
@@ -64,7 +64,7 @@ function destroyPeer (message, peer) {
   peer.destroy()
 }
 
-function createPeer (message, mediaPromise, initiator) {
+function createPeer (room, message, mediaPromise, initiator) {
   return mediaPromise.then(stream => {
     const peer = new Peer({ initiator, stream })
 
