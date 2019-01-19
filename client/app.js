@@ -4,15 +4,16 @@ import * as Colyseus from 'colyseus.js'
 import Peer from 'simple-peer'
 import config from '../config/default.json'
 
-window.fetch(config.app.host)
-  .then(run)
-  .catch(() => console.error('Signalling server failed to send response'))
+if (window.location.hostname === 'localhost') {
+  run(`ws://${window.location.hostname}:8080`)
+} else {
+  // Fetch an opaque response to wake up the dyno
+  window.fetch(`https://${config.app.host}`, { mode: 'no-cors' })
+    .then(() => run(`wss://${config.app.host}`))
+    .catch(() => console.error('Signalling server failed to send response'))
+}
 
-function run () {
-  const wsUrl = window.location.hostname === 'localhost'
-    ? `ws://${window.location.hostname}:8080`
-    : `wss://${config.app.host}`
-
+function run (wsUrl) {
   const client = new Colyseus.Client(wsUrl)
   const room = client.join('relay')
   const peers = {}
