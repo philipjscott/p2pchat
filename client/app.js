@@ -1,6 +1,7 @@
 'use strict'
 
 import * as Colyseus from 'colyseus.js'
+
 import Peer from 'simple-peer'
 import config from '../config/default.json'
 
@@ -17,14 +18,14 @@ function run (wsUrl) {
   const client = new Colyseus.Client(wsUrl)
   const room = client.join('relay')
   const peers = {}
+  let video = true
   const mediaPromise = getMedia({
     video: true,
     audio: true
   })
-    .catch(() => getMedia({ audio: true }))
-    .catch(() => getMedia({ video: true }))
-
-  getMedia({ video: true }).then(appendVideo.bind(null, 'self-video'))
+    .catch(() => (video = false, getMedia({ audio: true })))
+    .catch(() => (video = true, getMedia({ video: true })))
+    .then(() => video ? appendVideo('self-video') : Promise.resolve())
 
   room.onMessage.add(message => {
     if (message.target === room.sessionId) {
