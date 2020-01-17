@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
-    "lint": "standard",
-    "fix": "standard --fix",
+    "lint": "eslint --ignore-path .gitignore .",
+    "fix": "yarn run lint -- --fix",
     "test": "yarn run lint",
     "build": "parcel build client/index.html --public-url '.'",
     "dev:c": "parcel client/index.html --open",

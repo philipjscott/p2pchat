@@ -1,0 +1,4 @@
+extends: standard
+rules:
+  no-return-assign: 0
+  no-sequences: 0
