@@ -29,7 +29,7 @@ function run (wsUrl) {
   // Display video of self if video is enabled
   // Do NOT play audio of self; really annoying
   if (video) {
-      getMedia({ video: true }).then(appendVideo.bind(null, 'self-video'))
+    getMedia({ video: true }).then(appendVideo.bind(null, 'self-video'))
   }
 
   room.onMessage.add(message => {
