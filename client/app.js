@@ -15,17 +15,22 @@ if (window.location.hostname === 'localhost') {
 }
 
 function run (wsUrl) {
+  let video = true
   const client = new Colyseus.Client(wsUrl)
   const room = client.join('relay')
   const peers = {}
-  let video = true
   const mediaPromise = getMedia({
     video: true,
     audio: true
   })
     .catch(() => (video = false, getMedia({ audio: true })))
     .catch(() => (video = true, getMedia({ video: true })))
-    .then(() => video ? appendVideo('self-video') : Promise.resolve())
+
+  // Display video of self if video is enabled
+  // Do NOT play audio of self; really annoying
+  if (video) {
+    getMedia({ video: true }).then(appendVideo.bind(null, 'self-video'))
+  }
 
   room.onMessage.add(message => {
     if (message.target === room.sessionId) {
@@ -61,8 +66,9 @@ function getMedia (constraints) {
 
 function destroyPeer (message, peer) {
   const video = document.querySelector(`#${message.target}`)
-
-  video.parentNode.removeChild(video)
+  if (video) {
+    video.parentNode.removeChild(video)
+  }
   peer.destroy()
 }
 
