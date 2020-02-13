@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.css"],"names":[],"mappings":"AAAA,UACE,QAAS,CACT,qBACF,CAEA,MACE,QACF","file":"style.4261be1b.css","sourceRoot":"../client","sourcesContent":["html, body {\n  margin: 0;\n  background-color: #222;\n}\n\nvideo {\n  margin: 0;\n}\n"]}
