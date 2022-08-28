@@ -1,6 +1,6 @@
 # node-rtc-signal
 
-Barebones example on how to accomplish P2P audio/video chat in under 200 lines of JS code. Demo page: https://scottyfillups.io/node-rtc-signal/
+Barebones example on how to accomplish P2P audio/video chat in under 200 lines of JS code. Demo page: https://philipjscott.github.io/node-rtc-signal/
 
 I recommend trying it out by visiting it on your PC and on your phone :smiley:
 
